@@ -1,13 +1,10 @@
 ---
-- hosts: deploy
-  become: yes
-  user: devopsvm
+- hosts: tomcatserver
+  become_method: sudo
   vars:
-  - warName: tudu.war
-  - warRemotePath: /etc/ansible/
-  tasks:
-  - name: deploy WAR file
-    copy: src={{ warRemotePath }}/{{ warName }} dest=/opt/tomcat7/apache-tomcat-7.0.75/webapps  mode=0755
-  notify:
-  - restart tomcat7
+  - warName: tudu*
+  - warRemotePath: /etc/ansible
 
+  tasks:
+  - name: copying WAR file
+    copy:  src=/etc/ansible/tudu*  dest=/opt/tomcat7/apache-tomcat-7.0.75/webapps/

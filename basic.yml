@@ -1,18 +1,24 @@
 ---
 - hosts: tomcatserver
+  user: devopsvm
+  gather_facts: no
+  tasks:
+  - name: ping all hosts
+    ping:
+
+- hosts: tomcatserver
   become_method: sudo
   vars:
-  - warName: tudu.war
+  - warName: tudu-dwr.war
   - warRemotePath: /etc/ansible
 
   tasks:
   #- name: copying WAR file
   #  copy:  src=/etc/ansible/tudu1.war  dest=/opt/tomcat7/apache-tomcat-7.0.75/webapps/ 
-
+  #- name: ping the tomcatserver
+  #  shell: ansible -m ping tomcatserver
   - name: Delete remote war file
     shell: rm -rf /opt/tomcat7/apache-tomcat-7.0.75/webapps/*.war  
   
   - name: copying WAR file
-    copy:  src=/etc/ansible/tudu.war  dest=/opt/tomcat7/apache-tomcat-7.0.75/webapps/
-   #ssh devopsvm@devopsubuntuvm2 "find /opt/tomcat7/apache-tomcat-7.0.75/webapps/ -type *.war f -exec rm {}\;" 
-   #rm -rf /opt/tomcat7/apache-tomcat-7.0.75/webapps/.war  state=present
+    copy:  src=/etc/ansible/tudu-dwr.war  dest=/opt/tomcat7/apache-tomcat-7.0.75/webapps/
