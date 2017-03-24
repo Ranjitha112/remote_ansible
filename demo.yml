@@ -1,0 +1,17 @@
+---
+- hosts: tomcatserver
+  become_method: sudo
+  vars:
+  - warName: tudu-dwr.war
+  - warRemotePath: /etc/ansible
+
+  tasks:
+   - name: Delete remote war file
+     file: path=/opt/tomcat7/apache-tomcat-7.0.75/webapps/*.war  state=absent
+
+   - name: copying WAR file
+     copy:  src=/etc/ansible/tudu-dwr.war  dest=/opt/tomcat7/apache-tomcat-7.0.75/webapps/
+
+  handlers:
+    - name: Restart tomcat7
+      service: name=tomcat7 state=restarted
